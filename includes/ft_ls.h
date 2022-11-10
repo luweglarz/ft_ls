@@ -6,6 +6,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <limits.h>
+#include <stdbool.h>
+#include <errno.h>
 
 #include "../libft/libft.h"
 
@@ -18,6 +21,17 @@ typedef enum    s_options{
     UNKNOWN = 32
 }               e_options;
 
-t_list  *get_args_opts(int ac, char **av, e_options *opts);
+typedef struct  s_file{
+    char            *name;
+    char            path[PATH_MAX];
+    bool            isdir;
+    struct s_file   *next;
+}               t_file;
+
+t_file  *init_file(char *file_name);
+
+t_file *get_files_opts(int ac, char **av, e_options *opts);
+
+void    fatal_error();
 
 #endif

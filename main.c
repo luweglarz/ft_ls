@@ -3,9 +3,11 @@
 int main(int ac, char **av){
     e_options   opts = 0;
     t_list      *args = NULL;
+    t_file      *files = NULL;
 
-    args = get_args_opts(ac, av, &opts);
-    if (args == NULL)
-        ft_lstadd_back(&args, ft_lstnew(strdup("./")));
+    if (ac > 1)
+        files = get_files_opts(ac, av, &opts);
+    if (ac == 1)
+        files = init_file(".");
     return (0);
 }
