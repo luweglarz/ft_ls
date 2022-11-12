@@ -29,8 +29,12 @@ typedef struct  s_file{
 }               t_file;
 
 t_file  *init_file(char *file_name);
+bool    lexicographical_compare(char *s1, char *s2);
 
-t_file *get_files_opts(int ac, char **av, e_options *opts);
+void    fileadd_by_alpha(t_file **files, char *file_name, int rev);
+void    fileadd_by_time(int rev);
+
+void    get_files_opts(int ac, char **av, t_file **files, e_options *opts);
 
 void    fatal_error();
 

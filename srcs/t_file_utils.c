@@ -1,5 +1,13 @@
 #include "../includes/ft_ls.h"
 
+bool lexicographical_compare(char *s1, char *s2){
+    int i = 0;
+    
+    while(s1[i] && s2[i] && s1[i] == s2[i])
+        i++;
+    return (s1[i] > s2[i]);
+}
+
 static char *get_file_name(char *file_name){
     int i = ft_strlen(file_name) - 1;
 

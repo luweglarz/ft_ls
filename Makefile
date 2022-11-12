@@ -24,7 +24,7 @@ TESTS_OBJS = $(TESTS_SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(FT_LS_OBJS) buildlibft buildft_lslib 
-	$(CC) main.c $(FT_LS_LIBRARY) libft/libft.a -o $(NAME)
+	$(CC) main.c -g -fsanitize=address $(FT_LS_LIBRARY) libft/libft.a -o $(NAME)
 
 buildlibft:
 	make -C $(LIBFT) all

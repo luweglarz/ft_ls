@@ -22,32 +22,7 @@ static void get_opts(char *av, e_options *opts){
     }
 }
 
-void    fileadd_by_time(int rev){
-    (void)rev;
-
-}
-
-void    fileadd_by_alpha(t_file **files, char *file_name, int rev){
-    t_file  *tmp_files = *files;
-    t_file  *new_file = NULL;
-
-    new_file = init_file(file_name);
-    if (*files == NULL)
-        *files = new_file;
-    else if(((*files)->name[0] <= file_name[0] && rev > 0) || ((*files)->name[0] >= file_name[0] && rev == 0)){
-            new_file->next = *files;
-            *files = new_file;
-    }
-    else{
-        while(tmp_files->next && ((tmp_files->next->name[0] <= file_name[0] && rev == 0) || (tmp_files->next->name[0] >= file_name[0] && rev > 0)))
-            tmp_files = tmp_files->next;
-        new_file->next = tmp_files->next;
-        tmp_files->next = new_file;
-    }
-}
-
-t_file *get_files_opts(int ac, char **av, e_options *opts){
-    t_file      *files = NULL;
+void    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
     struct stat dummy;
     int         i = 1;
 
@@ -61,10 +36,9 @@ t_file *get_files_opts(int ac, char **av, e_options *opts){
                 if (*opts & t)
                     fileadd_by_time(*opts & r);
                 else
-                    fileadd_by_alpha(&files, av[i], *opts & r);
+                    fileadd_by_alpha(files, av[i], *opts & r);
             }
         }
         i++;
     }
-    return files;
 }
