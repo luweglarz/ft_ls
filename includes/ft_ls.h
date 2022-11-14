@@ -30,9 +30,10 @@ typedef struct  s_file{
 
 t_file  *init_file(char *file_name);
 bool    lexicographical_compare(char *s1, char *s2);
+bool    time_compare(char *s1, char *s2);
 
 void    fileadd_by_alpha(t_file **files, char *file_name, int rev);
-void    fileadd_by_time(int rev);
+void    fileadd_by_time(t_file **files, char *file_name, int rev);
 
 void    get_files_opts(int ac, char **av, t_file **files, e_options *opts);
 

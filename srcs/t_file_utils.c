@@ -8,6 +8,21 @@ bool lexicographical_compare(char *s1, char *s2){
     return (s1[i] > s2[i]);
 }
 
+bool time_compare(char *s1, char *s2){
+    struct stat     s1_stat;
+    struct stat     s2_stat;
+    struct timespec s1_time;
+    struct timespec s2_time;
+    
+    if (stat(s1, &s1_stat) == -1)
+        fatal_error();
+    s1_time = s1_stat.st_ctimespec;
+    if (stat(s2, &s2_stat) == -1)
+        fatal_error();
+    s2_time = s2_stat.st_ctimespec;
+    return (s1_time.tv_nsec > s2_time.tv_nsec);
+}
+
 static char *get_file_name(char *file_name){
     int i = ft_strlen(file_name) - 1;
 

@@ -8,5 +8,9 @@ int main(int ac, char **av){
         get_files_opts(ac, av, &files, &opts);
     if (ac == 1)
         files = init_file(".");
+    while(files){
+        printf("files: %s\n", files->name);
+        files = files->next;
+    }
     return (0);
 }
