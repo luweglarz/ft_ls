@@ -34,7 +34,7 @@ void    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
                 printf("ls: %s: No such file or directory\n", av[i]);
             else{
                 if (*opts & t)
-                    fileadd_by_time(files, av[i], *opts & t);
+                    fileadd_by_time(files, av[i], *opts & r);
                 else
                     fileadd_by_alpha(files, av[i], *opts & r);
             }

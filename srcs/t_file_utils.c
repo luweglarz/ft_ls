@@ -1,5 +1,16 @@
 #include "../includes/ft_ls.h"
 
+int count_files(t_file *files){
+    int    i = 0;
+    t_file *tmp_files = files;
+
+    while(tmp_files){
+        tmp_files = tmp_files->next;
+        i++;
+    }
+    return (i);
+}
+
 bool lexicographical_compare(char *s1, char *s2){
     int i = 0;
     
