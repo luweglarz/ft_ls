@@ -1,6 +1,9 @@
 #include "../includes/ft_ls.h"
 
 void fatal_error(){
-    dprintf(2, "Error: %s\n", strerror(errno));
-        exit(errno);
+    char    *error_msg = ft_strjoin("Error: ", strerror(errno));
+
+    write(2, error_msg, strlen(error_msg));
+    free(error_msg);
+    exit(errno);
 }

@@ -11,16 +11,12 @@ bool lexicographical_compare(char *s1, char *s2){
 bool time_compare(char *s1, char *s2){
     struct stat     s1_stat;
     struct stat     s2_stat;
-    struct timespec s1_time;
-    struct timespec s2_time;
     
     if (stat(s1, &s1_stat) == -1)
         fatal_error();
-    s1_time = s1_stat.st_ctimespec;
     if (stat(s2, &s2_stat) == -1)
         fatal_error();
-    s2_time = s2_stat.st_ctimespec;
-    return (s1_time.tv_nsec > s2_time.tv_nsec);
+    return (s1_stat.st_ctime > s2_stat.st_ctime);
 }
 
 static char *get_file_name(char *file_name){
@@ -38,8 +34,10 @@ t_file  *init_file(char *file_name){
     t_file  *new_file = NULL;
 
     ft_bzero(&cat, sizeof(cat));
-    if(strncmp(file_name, "./", 2) != 0)
-        cat[0] = '.'; cat[1] = '/';
+    if(ft_strncmp(file_name, "./", 2) != 0){
+        cat[0] = '.';
+        cat[1] = '/';
+    }
     if (!(new_file = ft_calloc(sizeof(t_file), 1)))
         fatal_error();
     new_file->name = get_file_name(file_name);
