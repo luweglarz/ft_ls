@@ -13,7 +13,7 @@ void	print_dir(t_file *file, e_options opts, bool root){
 				fileadd_by_alpha(&files, file_ptr->d_name, opts & r);
 		}
 		while(files){
-			printf("%s ", files->name);
+			printf("%s  ", files->name);
 			files = files->next;
 		}
 		printf("\n");

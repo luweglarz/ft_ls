@@ -34,12 +34,13 @@ int execute_compare(char **ls_args, char **ft_ls_args, char **envp){
 
     ls_output = exec_fork(ls_args, envp);
     ft_ls_output = exec_fork(ft_ls_args, envp);
-    if (ft_strncmp(ls_output, ft_ls_output, ft_strlen(ls_output)) != 0){
+    if (strcmp(ls_output, ft_ls_output) != 0){
         dprintf(g_log_test_fd, "Fail:\nls output: \n%s\nft_ls output: \n%s\n", ls_output, ft_ls_output);
         free(ls_output);
         free(ft_ls_output);
         return (0);
     }
+    dprintf(g_log_test_fd, "Success:\nls output: \n%s\nft_ls output: \n%s\n", ls_output, ft_ls_output);
     free(ls_output);
     free(ft_ls_output);
     return (1);
