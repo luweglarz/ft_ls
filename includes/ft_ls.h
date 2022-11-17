@@ -30,7 +30,7 @@ typedef struct  s_file{
 
 t_file  *init_file(char *file_name);
 int     count_files(t_file *files);
-bool    lexicographical_compare(char *s1, char *s2);
+bool    alphabetic_compare(char *s1, char *s2);
 bool    time_compare(char *s1, char *s2);
 
 void	print_dir(t_file *file, e_options opts, bool root);

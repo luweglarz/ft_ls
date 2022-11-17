@@ -11,12 +11,18 @@ int count_files(t_file *files){
     return (i);
 }
 
-bool lexicographical_compare(char *s1, char *s2){
+static char get_alpha(char c){
+    if (c >= 'A' && c <= 'Z')
+        return (c + 32);
+    return (c);
+}
+
+bool alphabetic_compare(char *s1, char *s2){
     int i = 0;
-    
-    while(s1[i] && s2[i] && s1[i] == s2[i])
+
+    while(s1[i] && s2[i] && get_alpha(s1[i]) == get_alpha(s2[i]))
         i++;
-    return (s1[i] > s2[i]);
+    return (get_alpha(s1[i]) > get_alpha(s2[i]));
 }
 
 bool time_compare(char *s1, char *s2){
