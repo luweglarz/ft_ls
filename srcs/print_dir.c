@@ -14,13 +14,13 @@ void	print_dir(t_file *file, e_options opts, bool root){
 		}
 		t_file *tmp_files = NULL;
 		while(files){
-			printf("%s  ", files->name);
+			ft_printf("%s  ", files->name);
 			tmp_files = files;
 			free(tmp_files->name);
 			files = files->next;
 			free(tmp_files);
 		}
-		printf("\n");
+		ft_printf("\n");
 	}
 	free(dir);
 }

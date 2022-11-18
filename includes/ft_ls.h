@@ -11,6 +11,7 @@
 #include <errno.h>
 
 #include "../libft/libft.h"
+#include "../ft_printf/ft_printf.h"
 
 typedef enum    s_options{
     R = 1,
