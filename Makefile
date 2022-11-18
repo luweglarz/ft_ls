@@ -12,6 +12,8 @@ FT_LS_SRCS =  $(shell find ./srcs -type f -name '*.c')
 
 FT_LS_OBJS = $(FT_LS_SRCS:.c=.o)
 
+PWD = $(shell pwd)
+
 .c.o:
 	$(CC) $(FLAGS) -c $< -o $@
 
@@ -25,7 +27,7 @@ $(NAME): $(FT_LS_OBJS)
 
 docker:
 	@docker build -t ft_ls_image .
-	@docker run  --name ft_ls_container -it --rm -v /Users/lucasweglarz/ft_ls:/ft_ls ft_ls_image /bin/bash
+	@docker run  --name ft_ls_container -it --rm -v $(PWD):/ft_ls ft_ls_image /bin/bash
 
 clean:
 	rm -rf $(FT_LS_OBJS) $(FT_LS_LIBRARY)

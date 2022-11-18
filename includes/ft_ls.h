@@ -29,7 +29,9 @@ typedef struct  s_file{
 }               t_file;
 
 t_file  *init_file(char *file_name);
+void    free_files(t_file *files);
 int     count_files(t_file *files);
+
 bool    alphabetic_compare(char *s1, char *s2);
 bool    time_compare(char *s1, char *s2);
 

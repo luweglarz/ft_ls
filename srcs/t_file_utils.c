@@ -46,9 +46,21 @@ static char *get_file_name(char *file_name){
     return (ft_substr(file_name, i + 1, ft_strlen(file_name) - i));
 }
 
+void    free_files(t_file *files){
+    t_file *to_free;
+
+    while (files){
+        to_free = files;
+        free(to_free->name);
+        files = files->next;
+        free(to_free);
+    }
+}
+
 t_file  *init_file(char *file_name){
     char    cat[PATH_MAX];
     t_file  *new_file = NULL;
+    DIR     *is_dir;
 
     ft_bzero(&cat, sizeof(cat));
     if(ft_strncmp(file_name, "./", 2) != 0){
@@ -67,8 +79,11 @@ t_file  *init_file(char *file_name){
         ft_strncpy(new_file->path, cat, ft_strlen(cat));
     }
     new_file->next = NULL;
-    if (opendir(new_file->path) != NULL)
+    is_dir = opendir(new_file->path);
+    if (is_dir != NULL){
         new_file->isdir = true;
+        free(is_dir);
+    }
     else
         new_file->isdir = false;
     return (new_file);

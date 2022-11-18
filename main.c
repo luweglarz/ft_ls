@@ -1,5 +1,7 @@
 #include "includes/ft_ls.h"
 
+
+
 int main(int ac, char **av){
     e_options   opts = 0;
     t_file      *files = NULL;
@@ -11,5 +13,6 @@ int main(int ac, char **av){
         files = init_file(".");
 		print_dir(files, opts, true);
 	}
+    free_files(files);
     return (0);
 }
