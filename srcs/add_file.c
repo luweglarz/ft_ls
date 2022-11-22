@@ -1,10 +1,10 @@
 #include "../includes/ft_ls.h"
 
-void    fileadd_by_time(t_file **files, char *file_name, int rev){
+void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev){
     t_file  *tmp_files = *files;
     t_file  *new_file = NULL;
 
-    new_file = init_file(file_name);
+    new_file = init_file(file_name, path);
     if (*files == NULL)
         *files = new_file;
     else if((time_compare((*files)->path, file_name) == true && rev == 0) ||
@@ -21,11 +21,11 @@ void    fileadd_by_time(t_file **files, char *file_name, int rev){
     }
 }
 
-void    fileadd_by_alpha(t_file **files, char *file_name, int rev){
+void    fileadd_by_alpha(t_file **files, char *file_name, char *path, int rev){
     t_file  *tmp_files = *files;
     t_file  *new_file = NULL;
 
-    new_file = init_file(file_name);
+    new_file = init_file(file_name, path);
     if (*files == NULL)
         *files = new_file;
     else if((alphabetic_compare((*files)->name, file_name) == true && rev == 0) ||

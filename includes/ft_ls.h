@@ -23,23 +23,24 @@ typedef enum    s_options{
 }               e_options;
 
 typedef struct  s_file{
-    char            *name;
+    char            name[NAME_MAX];
     char            path[PATH_MAX];
     bool            isdir;
     struct s_file   *next;
 }               t_file;
 
-t_file  *init_file(char *file_name);
+t_file  *init_file(char *file_name, char *path);
 void    free_files(t_file *files);
 int     count_files(t_file *files);
 
 bool    alphabetic_compare(char *s1, char *s2);
 bool    time_compare(char *s1, char *s2);
 
-void	print_dir(t_file *file, e_options opts, bool root);
+void	print_dir(t_file *dir, e_options opts, bool root);
+void	print_dir_recur(t_file *dir, e_options opts);
 
-void    fileadd_by_alpha(t_file **files, char *file_name, int rev);
-void    fileadd_by_time(t_file **files, char *file_name, int rev);
+void    fileadd_by_alpha(t_file **files, char *file_name, char *path, int rev);
+void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev);
 
 void    get_files_opts(int ac, char **av, t_file **files, e_options *opts);
 

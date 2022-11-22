@@ -37,13 +37,17 @@ bool time_compare(char *s1, char *s2){
 }
 
 static char *get_file_name(char *file_name){
-    int i = ft_strlen(file_name) - 1;
+    int begin = ft_strlen(file_name) - 1;
+    int end = ft_strlen(file_name) - 1;
 
-    while(i && file_name[i] != '/')
-        i--;
-    if (i == 0)
-        return (ft_strdup(file_name));
-    return (ft_substr(file_name, i + 1, ft_strlen(file_name) - i));
+    while(end && file_name[end] == '/')
+        end--;
+    begin = end;
+    while(begin && file_name[begin] != '/')
+        begin--;
+    if (begin == 0)
+        end++;
+    return (ft_substr(file_name, begin, end + begin));
 }
 
 void    free_files(t_file *files){
@@ -57,34 +61,24 @@ void    free_files(t_file *files){
     }
 }
 
-t_file  *init_file(char *file_name){
-    char    cat[PATH_MAX];
+t_file  *init_file(char *file_name, char *path){
     t_file  *new_file = NULL;
-    DIR     *is_dir;
+    DIR     *is_dir = false;
 
-    ft_bzero(&cat, sizeof(cat));
-    if(ft_strncmp(file_name, "./", 2) != 0){
-        cat[0] = '.';
-        cat[1] = '/';
-    }
     if (!(new_file = ft_calloc(sizeof(t_file), 1)))
         fatal_error();
-    new_file->name = get_file_name(file_name);
-    if (file_name[0] == '.' && file_name[1] == '\0'){
-        new_file->path[0] = '.';
-        new_file->path[1] = '/';
-    }
-    else{
-        ft_strncat(cat, file_name, ft_strlen(file_name));
-        ft_strncpy(new_file->path, cat, ft_strlen(cat));
-    }
+    file_name = get_file_name(file_name);
+    ft_bzero(&new_file->name, sizeof(new_file->name));
+    ft_strncpy(new_file->name, file_name, ft_strlen(file_name));
+    ft_bzero(&new_file->path, sizeof(new_file->path));
+    ft_strncpy(new_file->path, path, ft_strlen(path));
+
     new_file->next = NULL;
+
     is_dir = opendir(new_file->path);
     if (is_dir != NULL){
         new_file->isdir = true;
         free(is_dir);
     }
-    else
-        new_file->isdir = false;
     return (new_file);
 }

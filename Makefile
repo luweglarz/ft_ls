@@ -6,7 +6,7 @@ FT_LS_LIBRARY = ft_ls.a
 
 LIBFT = libft/
 
-FT_PRINTF = ft_printf
+FT_PRINTF = ft_printf/
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -24,9 +24,9 @@ all: $(NAME)
 $(NAME): $(FT_LS_OBJS)
 	@ar rc $(FT_LS_LIBRARY) $(FT_LS_OBJS)
 	@ranlib $(FT_LS_LIBRARY)
-	make -C $(FT_PRINTF) all
 	make -C $(LIBFT) all
-	$(CC) main.c $(FT_LS_LIBRARY) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
+	make -C $(FT_PRINTF) all
+	$(CC) main.c $(FT_LS_LIBRARY) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a -o $(NAME)
 
 docker:
 	@docker build -t ft_ls_image .
@@ -38,6 +38,7 @@ clean:
 fclean:	clean
 	rm -rf $(NAME) 
 	make -C $(LIBFT) fclean
+	make -C $(FT_PRINTF) fclean
 	-docker image rm ft_ls_image
 
 re: fclean all
