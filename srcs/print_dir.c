@@ -64,5 +64,4 @@ void	print_dir(t_file *dir, e_options opts, bool root){
 		free(file_to_del);
 	}
 	ft_printf("\n");
-	free(dir);
 }

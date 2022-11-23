@@ -22,30 +22,45 @@ static void get_opts(char *av, e_options *opts){
     }
 }
 
-void    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
+void    build_file(t_file **files, char *file, e_options opts){
     char    path[PATH_MAX];
+
+    ft_bzero(&path, sizeof(path));
+    ft_strncpy(path, ".", ft_strlen(file));
+    if (ft_strlen(file) >= 2 && file[0] != '.' && file[1] != '/' && file[2] != '\0'){
+        ft_strncat(path, "/", 1);
+         ft_strncat(path, file, ft_strlen(file));
+    }
+    if (opts & t)
+        fileadd_by_time(files, file, path,  opts & r);
+    else
+        fileadd_by_alpha(files, file, path, opts & r);
+
+}
+
+void    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
     struct stat dummy;
     int         i = 1;
+    int         errors = 0;
 
     while (i < ac){
         if (av[i][0] =='-' && av[i][1] != '\0')
             get_opts(av[i] + 1, opts);
         else {
-            if (stat(av[i], &dummy) == -1)
+            if (stat(av[i], &dummy) == -1){
                 ft_printf("ls: %s: No such file or directory\n", av[i]);
-            else{
-                ft_bzero(&path, sizeof(path));
-                ft_strncpy(path, ".", ft_strlen(av[i]));
-                if (av[i][0] != '.' && av[i][1] != '/' && av[i][2] != '\0'){
-                    ft_strncat(path, "/", 1);
-                    ft_strncat(path, av[i], ft_strlen(av[i]));
-                }
-                if (*opts & t)
-                    fileadd_by_time(files, av[i], path,  *opts & r);
-                else
-                    fileadd_by_alpha(files, av[i], path, *opts & r);
+                errors++;
             }
+            else
+                build_file(files, av[i], *opts);
         }
         i++;
     }
+    if (errors == 0 && *files == NULL){
+        if (*opts & t)
+            fileadd_by_time(files, ".", ".",  *opts & r);
+        else
+            fileadd_by_alpha(files, ".", ".", *opts & r);
+    }
+
 }
