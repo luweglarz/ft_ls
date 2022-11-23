@@ -3,7 +3,6 @@
 int main(int ac, char **av){
     e_options   opts = 0;
     t_file      *files = NULL;
-	t_file		*tmp_files = NULL;
 
     if (ac > 1)
         get_files_opts(ac, av, &files, &opts);
@@ -14,6 +13,7 @@ int main(int ac, char **av){
             print_dir_recur(files, opts);
         else
 		    print_dir(files, opts, true);
+        free(files);
 	}
     else{
         while(files){
@@ -21,6 +21,5 @@ int main(int ac, char **av){
             files = files->next;
         }
     }
-    //free_files(files);
     return (0);
 }

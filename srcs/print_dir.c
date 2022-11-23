@@ -19,6 +19,7 @@ static void	read_stream(t_file **files, t_file *dir, e_options opts){
 			fileadd_by_alpha(files, file_ptr->d_name, new_path, opts & r);
 		}
 	}
+	free(dir_stream);
 }
 
 void	print_dir_recur(t_file *dir, e_options opts){
@@ -40,10 +41,11 @@ void	print_dir_recur(t_file *dir, e_options opts){
 		free(file_to_del);
 	}
 	ft_printf("\n\n");
-
 	while(dirs){
 		print_dir_recur(dirs, opts);
+		file_to_del = dirs;
 		dirs = dirs->next;
+		free(file_to_del);
 	}
 }
 

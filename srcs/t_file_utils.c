@@ -70,6 +70,7 @@ t_file  *init_file(char *file_name, char *path){
     file_name = get_file_name(file_name);
     ft_bzero(&new_file->name, sizeof(new_file->name));
     ft_strncpy(new_file->name, file_name, ft_strlen(file_name));
+    free(file_name);
     ft_bzero(&new_file->path, sizeof(new_file->path));
     ft_strncpy(new_file->path, path, ft_strlen(path));
 
