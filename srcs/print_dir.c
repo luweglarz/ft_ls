@@ -41,7 +41,6 @@ void	print_dir_recur(t_file *dir, e_options opts){
 	}
 	ft_printf("\n\n");
 
-	free(dir);
 	while(dirs){
 		print_dir_recur(dirs, opts);
 		dirs = dirs->next;
@@ -55,6 +54,7 @@ void	print_dir(t_file *dir, e_options opts, bool root){
 	if (root == false)
 		ft_printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
+	
 	while(files){
 		ft_printf("%s  ", files->name);
 		file_to_del = files;
