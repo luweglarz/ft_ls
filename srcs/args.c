@@ -26,11 +26,7 @@ void    build_file(t_file **files, char *file, e_options opts){
     char    path[PATH_MAX];
 
     ft_bzero(&path, sizeof(path));
-    ft_strncpy(path, ".", ft_strlen(file));
-    if (ft_strlen(file) >= 2 && file[0] != '.' && file[1] != '/' && file[2] != '\0'){
-        ft_strncat(path, "/", 1);
-         ft_strncat(path, file, ft_strlen(file));
-    }
+    ft_strncpy(path, file, ft_strlen(file));
     if (opts & t)
         fileadd_by_time(files, file, path,  opts & r);
     else
@@ -38,7 +34,7 @@ void    build_file(t_file **files, char *file, e_options opts){
 
 }
 
-void    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
+int    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
     struct stat dummy;
     int         i = 1;
     int         errors = 0;
@@ -62,5 +58,5 @@ void    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
         else
             fileadd_by_alpha(files, ".", ".", *opts & r);
     }
-
+    return (errors);
 }

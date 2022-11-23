@@ -55,7 +55,6 @@ void    free_files(t_file *files){
 
     while (files){
         to_free = files;
-        free(to_free->name);
         files = files->next;
         free(to_free);
     }
@@ -73,7 +72,6 @@ t_file  *init_file(char *file_name, char *path){
     free(file_name);
     ft_bzero(&new_file->path, sizeof(new_file->path));
     ft_strncpy(new_file->path, path, ft_strlen(path));
-
     new_file->next = NULL;
 
     is_dir = opendir(new_file->path);

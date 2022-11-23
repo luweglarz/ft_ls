@@ -56,7 +56,7 @@ void	print_dir(t_file *dir, e_options opts, bool root){
 	if (root == false)
 		ft_printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
-	
+
 	while(files){
 		ft_printf("%s  ", files->name);
 		file_to_del = files;

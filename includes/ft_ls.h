@@ -42,7 +42,7 @@ void	print_dir_recur(t_file *dir, e_options opts);
 void    fileadd_by_alpha(t_file **files, char *file_name, char *path, int rev);
 void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev);
 
-void    get_files_opts(int ac, char **av, t_file **files, e_options *opts);
+int     get_files_opts(int ac, char **av, t_file **files, e_options *opts);
 
 void    fatal_error();
 
