@@ -62,7 +62,7 @@ void    free_files(t_file *files){
 
 t_file  *init_file(char *file_name, char *path){
     t_file  *new_file = NULL;
-    DIR     *is_dir = false;
+    struct stat isdir;
 
     if (!(new_file = ft_calloc(sizeof(t_file), 1)))
         fatal_error();
@@ -74,10 +74,8 @@ t_file  *init_file(char *file_name, char *path){
     ft_strncpy(new_file->path, path, ft_strlen(path));
     new_file->next = NULL;
 
-    is_dir = opendir(new_file->path);
-    if (is_dir != NULL){
+    lstat(new_file->path, &isdir);
+    if (S_ISDIR(isdir.st_mode))
         new_file->isdir = true;
-        free(is_dir);
-    }
     return (new_file);
 }
