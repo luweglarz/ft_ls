@@ -22,10 +22,26 @@ int main(int ac, char **av){
         free(files);
 	}
     else{
-        while(files){
-            printf("file: %s\n", files->name);
-            files = files->next;
+        t_file *tmp_files = files;
+        while(tmp_files){
+            if (tmp_files->isdir == false){
+                ft_printf("%s ", tmp_files->path);
+            }
+            tmp_files = tmp_files->next;
         }
+        ft_printf("\n");
+        tmp_files = files;
+        while(tmp_files){
+            if (tmp_files->isdir == true){
+                printf("\n");
+                if (opts & R)
+                    print_dir_recur(tmp_files, opts);
+                else
+		            print_dir(tmp_files, opts, false);
+            }
+            tmp_files = tmp_files->next;
+        }
+
     }
     return (0);
 }
