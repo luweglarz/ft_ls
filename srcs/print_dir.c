@@ -38,15 +38,15 @@ void	print_dir_recur(t_file *dir, e_options opts){
 	read_stream(&files, dir, opts);
 
 	while(files){
-		ft_printf("%-15s", files->name);
+		ft_printf("%s\n", files->name);
 		if (files->isdir == true)
 			fileadd_by_alpha(&dirs, files->name, files->path, opts & r);
 		file_to_del = files;
 		files = files->next;
 		free(file_to_del);
 	}
-	ft_printf("\n\n");
 	while(dirs){
+		ft_printf("\n");
 		print_dir_recur(dirs, opts);
 		file_to_del = dirs;
 		dirs = dirs->next;
@@ -63,10 +63,9 @@ void	print_dir(t_file *dir, e_options opts, bool root){
 	read_stream(&files, dir, opts);
 
 	while(files){
-		ft_printf("%-15s", files->name);
+		ft_printf("%s\n", files->name);
 		file_to_del = files;
 		files = files->next;
 		free(file_to_del);
 	}
-	ft_printf("\n");
 }

@@ -32,6 +32,8 @@ typedef struct  s_file{
 t_file  *init_file(char *file_name, char *path);
 void    free_files(t_file *files);
 int     count_files(t_file *files);
+bool    has_file(t_file *files);
+bool    has_dir(t_file *files);
 
 bool    alphabetic_compare(char *s1, char *s2);
 bool    time_compare(char *s1, char *s2);

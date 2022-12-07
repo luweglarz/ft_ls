@@ -11,29 +11,26 @@ int count_files(t_file *files){
     return (i);
 }
 
-static char get_alpha(char c){
-    if (c >= 'A' && c <= 'Z')
-        return (c + 32);
-    return (c);
+bool    has_file(t_file *files){
+    t_file *tmp_files = files;
+
+    while(tmp_files){
+        if (tmp_files->isdir == false)
+            return (true);
+        tmp_files = tmp_files->next;
+    }
+    return (false);
 }
 
-bool alphabetic_compare(char *s1, char *s2){
-    int i = 0;
+bool    has_dir(t_file *files){
+    t_file *tmp_files = files;
 
-    while(s1[i] && s2[i] && get_alpha(s1[i]) == get_alpha(s2[i]))
-        i++;
-    return (get_alpha(s1[i]) > get_alpha(s2[i]));
-}
-
-bool time_compare(char *s1, char *s2){
-    struct stat     s1_stat;
-    struct stat     s2_stat;
-    
-    if (stat(s1, &s1_stat) == -1)
-        fatal_error();
-    if (stat(s2, &s2_stat) == -1)
-        fatal_error();
-    return (s1_stat.st_ctime < s2_stat.st_ctime);
+    while(tmp_files){
+        if (tmp_files->isdir == true)
+            return (true);
+        tmp_files = tmp_files->next;
+    }
+    return (false);
 }
 
 static char *get_file_name(char *file_name){

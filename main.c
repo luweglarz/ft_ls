@@ -23,21 +23,24 @@ int main(int ac, char **av){
 	}
     else{
         t_file *tmp_files = files;
-        while(tmp_files){
-            if (tmp_files->isdir == false){
-                ft_printf("%s ", tmp_files->path);
+        if (has_file(tmp_files)){
+            while(tmp_files->next){
+                if (tmp_files->isdir == false){
+                    ft_printf("%s\n", tmp_files->path);
+                }
+                tmp_files = tmp_files->next;
             }
-            tmp_files = tmp_files->next;
+            ft_printf("%s\n", tmp_files->path);
         }
-        ft_printf("\n");
         tmp_files = files;
         while(tmp_files){
             if (tmp_files->isdir == true){
-                printf("\n");
                 if (opts & R)
                     print_dir_recur(tmp_files, opts);
                 else
 		            print_dir(tmp_files, opts, false);
+                if (tmp_files->next != NULL && tmp_files->next->isdir == true)
+                    ft_printf("\n");
             }
             tmp_files = tmp_files->next;
         }
