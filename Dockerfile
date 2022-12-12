@@ -2,7 +2,8 @@ FROM debian:buster
 
 RUN apt-get update \
 && apt -y install build-essential \
-&& apt-get install -y locales
+&& apt-get install -y locales \
+&& apt -y install valgrind 
 
 #Build locales to have correct alpha sorting
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \

@@ -1,6 +1,20 @@
 #include "../includes/ft_ls.h"
 
-void get_new_path(char *new_path, char *dir_path, char *file_name){
+static void print_total(t_file *dir){
+	size_t		size = 0;
+	t_file 		*tmp_file = dir;
+	struct stat file_infos;
+
+	while(tmp_file){
+		if (lstat(tmp_file->path, &file_infos) < 0)
+        	fatal_error();
+		size += file_infos.st_blocks;
+		tmp_file = tmp_file->next;
+	}
+	ft_printf("total %d\n", (size / 2));
+}
+
+static void get_new_path(char *new_path, char *dir_path, char *file_name){
 	ft_strncpy(new_path, dir_path, ft_strlen(dir_path));
 	if (new_path[ft_strlen(new_path) - 1] != '/')
 		ft_strncat(new_path, "/", 1);
@@ -31,15 +45,20 @@ void	print_dir_recur(t_file *dir, e_options opts){
 	t_file			*files = NULL;
 	t_file			*dirs = NULL;
 	t_file 			*file_to_del = NULL;
+	size_t			size_max = 0;
+	size_t			hard_links_max = 0;
 
 	if (dir == NULL)
 		return ;
 	ft_printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
-
+	if(opts & l){
+		get_width(files, &size_max, &hard_links_max);
+		print_total(files);
+	}
 	while(files){
-		ft_printf("%s\n", files->name);
-		if (files->isdir == true)
+		print_file(files, size_max, hard_links_max, opts);
+		if (files->isdir == true && ((files->name[0] != '.' && files->name[1] != '\0') || (files->name[0] != '.' && files->name[1] != '.' && files->name[2] != '\0')))
 			fileadd_by_alpha(&dirs, files->name, files->path, opts & r);
 		file_to_del = files;
 		files = files->next;
@@ -52,20 +71,6 @@ void	print_dir_recur(t_file *dir, e_options opts){
 		dirs = dirs->next;
 		free(file_to_del);
 	}
-}
-
-static void print_total(t_file *dir){
-	size_t		size = 0;
-	t_file 		*tmp_file = dir;
-	struct stat file_infos;
-
-	while(tmp_file){
-		if (lstat(tmp_file->path, &file_infos) < 0)
-        	fatal_error();
-		size += file_infos.st_blocks;
-		tmp_file = tmp_file->next;
-	}
-	ft_printf("total %d\n", (size / 2));
 }
 
 void	print_dir(t_file *dir, e_options opts, bool root){
