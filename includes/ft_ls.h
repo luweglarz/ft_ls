@@ -6,6 +6,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
 #include <limits.h>
 #include <stdbool.h>
 #include <errno.h>
@@ -26,6 +29,9 @@ typedef struct  s_file{
     char            name[NAME_MAX];
     char            path[PATH_MAX];
     bool            isdir;
+
+    size_t          hard_links;
+    size_t          size;
     struct s_file   *next;
 }               t_file;
 
@@ -37,6 +43,8 @@ bool    has_dir(t_file *files);
 
 bool    alphabetic_compare(char *s1, char *s2);
 bool    time_compare(char *s1, char *s2);
+
+void    print_long_format(t_file *file, size_t size_max, size_t hard_links_max);
 
 void	print_dir(t_file *dir, e_options opts, bool root);
 void	print_dir_recur(t_file *dir, e_options opts);

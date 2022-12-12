@@ -1,22 +1,10 @@
 #include "../includes/ft_ls.h"
 
-char get_alpha(char c){
+static char get_alpha(char c){
     if (c >= 'A' && c <= 'Z')
         return (c + 32);
     return (c);
 }
-
-// bool alphabetic_compare(char *s1, char *s2){
-//     int i = 0;
-
-//     while(s1[i] && s2[i] && get_alpha(s1[i]) == get_alpha(s2[i]))
-//         i++;
-//     if (ft_isalpha(s1[i]) == 0)
-//         return (false);
-//     else if (ft_isalpha(s2[i]) == 0)
-//         return (false);
-//     return (get_alpha(s1[i]) > get_alpha(s2[i]));
-// }
 
 bool alphabetic_compare(char *s1, char *s2){
     int i = 0;
