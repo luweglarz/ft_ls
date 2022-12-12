@@ -23,14 +23,17 @@ int main(int ac, char **av){
 	}
     else{
         t_file *tmp_files = files;
+
         if (has_file(tmp_files)){
-            while(tmp_files->next){
-                if (tmp_files->isdir == false){
-                    ft_printf("%s\n", tmp_files->path);
-                }
+            while(tmp_files){
+                if (tmp_files->isdir == false)
+                    print_file(tmp_files, count_digit(tmp_files->size), count_digit(tmp_files->hard_links), opts);
                 tmp_files = tmp_files->next;
             }
-            ft_printf("%s\n", tmp_files->path);
+            if (has_dir(files))
+                ft_printf("\n");
+            //ft_printf("\n");
+            //  print_file(tmp_files, count_digit(tmp_files->size), count_digit(tmp_files->hard_links), opts);
         }
         tmp_files = files;
         while(tmp_files){

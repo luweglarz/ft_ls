@@ -54,16 +54,18 @@ void	print_dir_recur(t_file *dir, e_options opts){
 	}
 }
 
-void get_width(t_file *files, size_t *size_max, size_t *hard_links_max){
-	t_file		*tmp_files = files;
+static void print_total(t_file *dir){
+	size_t		size = 0;
+	t_file 		*tmp_file = dir;
+	struct stat file_infos;
 
-	while(tmp_files){
-		if (tmp_files->size > *size_max)
-			*size_max = tmp_files->size; // faut compter diig par digit
-		if (tmp_files->hard_links > *hard_links_max)
-			*hard_links_max = tmp_files->hard_links;
-		tmp_files = tmp_files->next;
+	while(tmp_file){
+		if (lstat(tmp_file->path, &file_infos) < 0)
+        	fatal_error();
+		size += file_infos.st_blocks;
+		tmp_file = tmp_file->next;
 	}
+	ft_printf("total %d\n", (size / 2));
 }
 
 void	print_dir(t_file *dir, e_options opts, bool root){
@@ -75,13 +77,12 @@ void	print_dir(t_file *dir, e_options opts, bool root){
 	if (root == false)
 		ft_printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
-	if(opts & l)
+	if(opts & l){
 		get_width(files, &size_max, &hard_links_max);
+		print_total(files);
+	}
 	while(files){
-		// if (opts & l)
-		// 	print_long_format(files, size_max, hard_links_max);
-		// else
-        // 	ft_printf("%s\n", files->name);
+		print_file(files, size_max, hard_links_max, opts);
 		file_to_del = files;
 		files = files->next;
 		free(file_to_del);

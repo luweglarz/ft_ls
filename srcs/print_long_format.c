@@ -53,12 +53,13 @@ static void print_time(char *time_stamp){
         end--;
     correct_format = ft_substr(time_stamp, start,ft_strlen(time_stamp) + 1 - (end - start));
     ft_printf("%s ", correct_format);
+    free(correct_format);
 }
 
 void    print_long_format(t_file *file, size_t size_max, size_t hard_links_max){
     struct stat file_infos;
 
-    if (stat(file->path, &file_infos) < 0)
+    if (lstat(file->path, &file_infos) < 0)
         fatal_error();
     print_perm(file_infos.st_mode);
     ft_printf("%*d ", hard_links_max, file->hard_links);

@@ -31,5 +31,5 @@ bool time_compare(char *s1, char *s2){
         fatal_error();
     if (stat(s2, &s2_stat) == -1)
         fatal_error();
-    return (s1_stat.st_ctime < s2_stat.st_ctime);
+    return (s1_stat.st_ctime <= s2_stat.st_ctime);
 }

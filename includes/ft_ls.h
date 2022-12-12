@@ -48,11 +48,15 @@ void    print_long_format(t_file *file, size_t size_max, size_t hard_links_max);
 
 void	print_dir(t_file *dir, e_options opts, bool root);
 void	print_dir_recur(t_file *dir, e_options opts);
+void    print_file(t_file *file, size_t max_size, size_t max_hard_links, e_options opts);
 
 void    fileadd_by_alpha(t_file **files, char *file_name, char *path, int rev);
 void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev);
 
 int     get_files_opts(int ac, char **av, t_file **files, e_options *opts);
+
+size_t	count_digit(size_t number);
+void get_width(t_file *files, size_t *size_max, size_t *hard_links_max);
 
 void    fatal_error();
 
