@@ -60,14 +60,11 @@ void    print_long_format(t_file *file, size_t size_max, size_t hard_links_max){
     struct stat file_infos;
 
     if (lstat(file->path, &file_infos) < 0)
-        fatal_error();
+        fatal_error(file);
     print_perm(file_infos.st_mode);
     ft_printf("%*d ", hard_links_max, file->hard_links);
     print_user_n_group(file_infos.st_uid, file_infos.st_gid);
     ft_printf("%*d", size_max, file->size);
     print_time(ctime(&file_infos.st_mtime));
-    if (file->path[0] == '.' && file->path[1] == '/')
-        ft_printf("%s\n", file->name);
-    else
-        ft_printf("%s\n", file->path);
+    ft_printf("%s\n", file->name);
 }

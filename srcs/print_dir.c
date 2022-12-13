@@ -7,7 +7,7 @@ static void print_total(t_file *dir){
 
 	while(tmp_file){
 		if (lstat(tmp_file->path, &file_infos) < 0)
-        	fatal_error();
+        	fatal_error(dir);
 		size += file_infos.st_blocks;
 		tmp_file = tmp_file->next;
 	}
@@ -41,6 +41,12 @@ static void	read_stream(t_file **files, t_file *dir, e_options opts){
 	free(dir_stream);
 }
 
+static bool is_root(const char *file_name){
+	if (((file_name[0] == '.' && file_name[1] == '\0') || (file_name[0] == '.' && file_name[1] == '.' && file_name[2] == '\0')))
+		return (true);
+	return (false);
+}
+
 void	print_dir_recur(t_file *dir, e_options opts){
 	t_file			*files = NULL;
 	t_file			*dirs = NULL;
@@ -58,7 +64,7 @@ void	print_dir_recur(t_file *dir, e_options opts){
 	}
 	while(files){
 		print_file(files, size_max, hard_links_max, opts);
-		if (files->isdir == true && ((files->name[0] != '.' && files->name[1] != '\0') || (files->name[0] != '.' && files->name[1] != '.' && files->name[2] != '\0')))
+		if (files->isdir == true && is_root(files->name) == false)
 			fileadd_by_alpha(&dirs, files->name, files->path, opts & r);
 		file_to_del = files;
 		files = files->next;

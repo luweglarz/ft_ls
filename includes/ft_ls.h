@@ -56,8 +56,8 @@ void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev);
 int     get_files_opts(int ac, char **av, t_file **files, e_options *opts);
 
 size_t	count_digit(size_t number);
-void get_width(t_file *files, size_t *size_max, size_t *hard_links_max);
+void    get_width(t_file *files, size_t *size_max, size_t *hard_links_max);
 
-void    fatal_error();
+void    fatal_error(t_file *files);
 
 #endif

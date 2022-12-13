@@ -31,9 +31,9 @@ bool time_compare(char *s1, char *s2){
     struct stat     s1_stat;
     struct stat     s2_stat;
     
-    if (stat(s1, &s1_stat) == -1)
-        fatal_error();
-    if (stat(s2, &s2_stat) == -1)
-        fatal_error();
+    if (lstat(s1, &s1_stat) == -1)
+        fatal_error(NULL);
+    if (lstat(s2, &s2_stat) == -1)
+        fatal_error(NULL);
     return (s1_stat.st_ctime <= s2_stat.st_ctime);
 }
