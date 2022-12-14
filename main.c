@@ -40,7 +40,7 @@ int main(int ac, char **av){
                     print_dir_recur(tmp_files, opts);
                 else
 		            print_dir(tmp_files, opts, false);
-                if (tmp_files->next != NULL && tmp_files->next->isdir == true)
+                if (tmp_files->next != NULL)
                     ft_printf("\n");
             }
             tmp_files = tmp_files->next;
