@@ -45,22 +45,21 @@ static bool is_root(const char *file_name){
 }
 
 void	print_dir_recur(t_file *dir, e_options opts){
-	t_file			*files = NULL;
-	t_file			*dirs = NULL;
-	t_file 			*file_to_del = NULL;
-	size_t			size_max = 0;
-	size_t			hard_links_max = 0;
+	t_file		*files = NULL;
+	t_file		*dirs = NULL;
+	t_file 		*file_to_del = NULL;
+	t_format	format;
 
 	if (dir == NULL)
 		return ;
 	ft_printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
 	if(opts & l){
-		get_width(files, &size_max, &hard_links_max);
+		get_width(files, &format);
 		print_total(files);
 	}
 	while(files){
-		print_file(files, size_max, hard_links_max, opts);
+		print_file(files, format, opts);
 		if (files->isdir == true && is_root(files->name) == false)
 			fileadd_by_alpha(&dirs, files->name, files->path, opts & r);
 		file_to_del = files;
@@ -79,18 +78,18 @@ void	print_dir_recur(t_file *dir, e_options opts){
 void	print_dir(t_file *dir, e_options opts, bool root){
 	t_file			*files = NULL;
 	t_file 			*file_to_del = NULL;
-	size_t			size_max = 0;
-	size_t			hard_links_max = 0;
+	t_format		format;
 
 	if (root == false)
 		ft_printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
 	if(opts & l){
-		get_width(files, &size_max, &hard_links_max);
+		get_width(files, &format);
+		ft_printf("format info %ld\n", format.user_group_width);
 		print_total(files);
 	}
 	while(files){
-		print_file(files, size_max, hard_links_max, opts);
+		print_file(files, format, opts);
 		file_to_del = files;
 		files = files->next;
 		free(file_to_del);

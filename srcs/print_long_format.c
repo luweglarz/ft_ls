@@ -34,13 +34,20 @@ static char print_perm(mode_t perms){
     return (chmod[0]);
 }
 
-static void print_user_n_group(uid_t user_id, gid_t group_id){
+static void print_user_n_group(uid_t user_id, gid_t group_id, t_format format){
     struct passwd *user_infos;
     struct group  *group_infos;
 
     user_infos = getpwuid(user_id);
     group_infos = getgrgid(group_id);
-    ft_printf("%s %s ", user_infos->pw_name, group_infos->gr_name);
+    if (user_infos && group_infos)
+        ft_printf("%*s %*s ", format.user_name_width, user_infos->pw_name, format.user_group_width, group_infos->gr_name);
+    else{
+        char *str_user_id = ft_itoa(user_id), *str_group_id = ft_itoa(group_id);
+        ft_printf("%s %s ", str_user_id, str_group_id);
+        free(str_user_id);
+        free(str_group_id);
+    }
 }
 
 static int  get_month_number(char *month){
@@ -96,7 +103,7 @@ static void print_time(char *time_stamp){
     char **time_stamp_split = ft_split(time_stamp, ' ');
 
     ft_printf("%s ", time_stamp_split[1]);
-    ft_printf("%s ", time_stamp_split[2]);
+    ft_printf("%2s ", time_stamp_split[2]);
     if (past_six_month(ft_atoi(time_stamp_split[2]), get_month_number(time_stamp_split[1]), ft_atoi(time_stamp_split[4])) == false)
         ft_printf("%.5s ", time_stamp_split[3]);
     else{
@@ -106,13 +113,13 @@ static void print_time(char *time_stamp){
     ft_free_split(time_stamp_split);
 }
 
-void    print_long_format(t_file *file, size_t size_max, size_t hard_links_max){
+void    print_long_format(t_file *file, t_format format){
     char        type;
 
     type = print_perm(file->file_infos.st_mode);
-    ft_printf("%*d ", hard_links_max, file->file_infos.st_nlink);
-    print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid);
-    ft_printf("%*d ", size_max, file->file_infos.st_size);
+    ft_printf("%*d ", format.hard_links_width, file->file_infos.st_nlink);
+    print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid, format);
+    ft_printf("%*d ", format.size_width, file->file_infos.st_size);
     print_time(ctime(&file->file_infos.st_mtime));
     if (type == 'l'){
         char sym_link[PATH_MAX];

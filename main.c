@@ -26,8 +26,12 @@ int main(int ac, char **av){
 
         if (has_file(tmp_files)){
             while(tmp_files){
-                if (tmp_files->isdir == false)
-                    print_file(tmp_files, count_digit(tmp_files->file_infos.st_size), count_digit(tmp_files->file_infos.st_nlink), opts);
+                if (tmp_files->isdir == false){
+                    t_format format;
+
+                    get_width(tmp_files, &format);
+                    print_file(tmp_files, format, opts);
+                }
                 tmp_files = tmp_files->next;
             }
             if (has_dir(files))
