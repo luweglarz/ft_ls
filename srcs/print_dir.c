@@ -23,8 +23,12 @@ static void	read_stream(t_file **files, t_file *dir, e_options opts){
 	DIR 			*dir_stream = opendir(dir->path);
 	struct dirent 	*file_ptr = NULL;
 
-	if(dir_stream == NULL)
+	if(dir_stream == NULL){
+		write(2, "ft_ls: ", 8);
+        write(2, dir->name, ft_strlen(dir->name));
+        write(2, ": Permission denied\n", 21);
 		return ;
+	}
 	while((file_ptr = readdir(dir_stream)) != NULL){
 		if ((opts & t && (opts & a) == 0 && file_ptr->d_name[0] != '.') || ((opts & t && (opts & a) > 0))){
 			get_new_path(new_path, dir->path, file_ptr->d_name);
@@ -85,7 +89,6 @@ void	print_dir(t_file *dir, e_options opts, bool root){
 	read_stream(&files, dir, opts);
 	if(opts & l){
 		get_width(files, &format);
-		ft_printf("format info %ld\n", format.user_group_width);
 		print_total(files);
 	}
 	while(files){

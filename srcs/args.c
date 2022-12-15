@@ -44,7 +44,9 @@ int    get_files_opts(int ac, char **av, t_file **files, e_options *opts){
             get_opts(av[i] + 1, opts);
         else {
             if (stat(av[i], &dummy) == -1){
-                ft_printf("ft_ls: %s: No such file or directory\n", av[i]);
+                write(2, "ft_ls: ", 8);
+                write(2, av[i], ft_strlen(av[i]));
+                write(2, ": No such file or directory\n", 29);
                 errors++;
             }
             else
