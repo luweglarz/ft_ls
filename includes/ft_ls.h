@@ -29,9 +29,8 @@ typedef struct  s_file{
     char            name[NAME_MAX];
     char            path[PATH_MAX];
     bool            isdir;
-
-    size_t          hard_links;
-    size_t          size;
+    struct stat     file_infos;
+    
     struct s_file   *next;
 }               t_file;
 
@@ -42,7 +41,7 @@ bool    has_file(t_file *files);
 bool    has_dir(t_file *files);
 
 bool    alphabetic_compare(char *s1, char *s2);
-bool    time_compare(char *s1, char *s2);
+bool    time_compare(struct stat file1, char *file2);
 
 void    print_long_format(t_file *file, size_t size_max, size_t hard_links_max);
 

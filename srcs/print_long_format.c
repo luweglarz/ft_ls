@@ -81,6 +81,7 @@ static bool past_six_month(int file_day, int file_month, int file_year){
     actual_month = get_month_number(actual_split[1]);
     actual_year = ft_atoi(actual_split[4]);
 
+    ft_free_split(actual_split);
     if ((actual_day - file_day) < 0)
         diff_month += 1;
     diff_month += actual_month - file_month;
@@ -102,20 +103,17 @@ static void print_time(char *time_stamp){
         time_stamp_split[4][4] = '\0'; 
         ft_printf("%s ", time_stamp_split[4]);
     }
-    free(time_stamp_split);
+    ft_free_split(time_stamp_split);
 }
 
 void    print_long_format(t_file *file, size_t size_max, size_t hard_links_max){
-    struct stat file_infos;
     char        type;
 
-    if (lstat(file->path, &file_infos) < 0)
-        fatal_error(file);
-    type = print_perm(file_infos.st_mode);
-    ft_printf("%*d ", hard_links_max, file->hard_links);
-    print_user_n_group(file_infos.st_uid, file_infos.st_gid);
-    ft_printf("%*d ", size_max, file->size);
-    print_time(ctime(&file_infos.st_mtime));
+    type = print_perm(file->file_infos.st_mode);
+    ft_printf("%*d ", hard_links_max, file->file_infos.st_nlink);
+    print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid);
+    ft_printf("%*d ", size_max, file->file_infos.st_size);
+    print_time(ctime(&file->file_infos.st_mtime));
     if (type == 'l'){
         char sym_link[PATH_MAX];
         ssize_t link_string_length;

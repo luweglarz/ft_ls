@@ -3,12 +3,9 @@
 static void print_total(t_file *dir){
 	size_t		size = 0;
 	t_file 		*tmp_file = dir;
-	struct stat file_infos;
 
 	while(tmp_file){
-		if (lstat(tmp_file->path, &file_infos) < 0)
-        	fatal_error(dir);
-		size += file_infos.st_blocks;
+		size += tmp_file->file_infos.st_blocks;
 		tmp_file = tmp_file->next;
 	}
 	ft_printf("total %d\n", (size / 2));
@@ -38,7 +35,7 @@ static void	read_stream(t_file **files, t_file *dir, e_options opts){
 			fileadd_by_alpha(files, file_ptr->d_name, new_path, opts & r);
 		}
 	}
-	free(dir_stream);
+	closedir(dir_stream);
 }
 
 static bool is_root(const char *file_name){

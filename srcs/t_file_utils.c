@@ -45,7 +45,6 @@ int count_files(t_file *files){
 
 t_file  *init_file(char *file_name, char *path){
     t_file      *new_file = NULL;
-    struct stat file_infos;
 
     if (!(new_file = ft_calloc(sizeof(t_file), 1)))
         return (NULL);
@@ -57,11 +56,9 @@ t_file  *init_file(char *file_name, char *path){
     ft_strncpy(new_file->path, path, ft_strlen(path));
     new_file->next = NULL;
 
-    if(lstat(new_file->path, &file_infos) == -1)
+    if(lstat(new_file->path, &new_file->file_infos) == -1)
         return (NULL);
-    if (S_ISDIR(file_infos.st_mode))
+    if (S_ISDIR(new_file->file_infos.st_mode))
         new_file->isdir = true;
-    new_file->hard_links = file_infos.st_nlink;
-    new_file->size = file_infos.st_size;
     return (new_file);
 }

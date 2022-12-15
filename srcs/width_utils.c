@@ -16,10 +16,10 @@ void get_width(t_file *files, size_t *size_max, size_t *hard_links_max){
 	size_t		max_hard_links	= 0;
 
 	while(tmp_files){
-		max_size = count_digit(tmp_files->size);
+		max_size = count_digit(tmp_files->file_infos.st_size);
 		if (max_size > *size_max)
 			*size_max = max_size;
-		max_hard_links = count_digit(tmp_files->hard_links);
+		max_hard_links = count_digit(tmp_files->file_infos.st_nlink);
 		if (max_hard_links > *hard_links_max)
 			*hard_links_max = max_hard_links;
 		tmp_files = tmp_files->next;

@@ -27,13 +27,10 @@ bool alphabetic_compare(char *s1, char *s2){
     return (get_alpha(s1[i]) > get_alpha(s2[j]));
 }
 
-bool time_compare(char *s1, char *s2){
-    struct stat     s1_stat;
-    struct stat     s2_stat;
-    
-    if (lstat(s1, &s1_stat) == -1)
+bool time_compare(struct stat file1, char *file2){
+    struct stat     f2_stat;
+
+    if (lstat(file2, &f2_stat) == -1)
         fatal_error(NULL);
-    if (lstat(s2, &s2_stat) == -1)
-        fatal_error(NULL);
-    return (s1_stat.st_ctime <= s2_stat.st_ctime);
+    return (file1.st_ctime <= f2_stat.st_ctime);
 }
