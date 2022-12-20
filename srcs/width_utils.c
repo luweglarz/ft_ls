@@ -12,8 +12,8 @@ size_t	count_digit(size_t number){
 
 void get_width(t_file *files, t_format *format){
 	t_file			*tmp_files 		= files;
-	size_t			max_size		= 0;
-	size_t			max_hard_links	= 0;
+	int				max_size		= 0;
+	int				max_hard_links	= 0;
 	struct passwd 	*user_infos;
     struct group  	*group_infos;
 
@@ -28,12 +28,12 @@ void get_width(t_file *files, t_format *format){
 		max_hard_links = count_digit(tmp_files->file_infos.st_nlink);
 		if (max_hard_links > format->hard_links_width)
 			format->hard_links_width = max_hard_links;
-		user_infos = getpwuid(tmp_files->file_infos.st_uid);\
-		if (ft_strlen(user_infos->pw_name) > format->user_name_width)
-			format->user_name_width = ft_strlen(user_infos->pw_name);
+		user_infos = getpwuid(tmp_files->file_infos.st_uid);
+		if ((int)ft_strlen(user_infos->pw_name) > format->user_name_width)
+			format->user_name_width = (int)ft_strlen(user_infos->pw_name);
 		group_infos = getgrgid(tmp_files->file_infos.st_gid);
-		if (ft_strlen(group_infos->gr_name) > format->user_group_width)
-			format->user_group_width = ft_strlen(group_infos->gr_name);
+		if ((int)ft_strlen(group_infos->gr_name) > format->user_group_width)
+			format->user_group_width = (int)ft_strlen(group_infos->gr_name);
 		tmp_files = tmp_files->next;
 	}
 }

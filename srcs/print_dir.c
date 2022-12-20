@@ -8,7 +8,7 @@ static void print_total(t_file *dir){
 		size += tmp_file->file_infos.st_blocks;
 		tmp_file = tmp_file->next;
 	}
-	ft_printf("total %d\n", (size / 2));
+	printf("total %ld\n", (size / 2));
 }
 
 static void get_new_path(char *new_path, char *dir_path, char *file_name){
@@ -56,14 +56,14 @@ void	print_dir_recur(t_file *dir, e_options opts){
 
 	if (dir == NULL)
 		return ;
-	ft_printf("%s:\n", dir->path);
+	printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
 	if(opts & l){
 		get_width(files, &format);
 		print_total(files);
 	}
 	while(files){
-		print_file(files, format, opts);
+		print_file(files, &format, opts);
 		if (files->isdir == true && is_root(files->name) == false)
 			fileadd_by_alpha(&dirs, files->name, files->path, opts & r);
 		file_to_del = files;
@@ -71,7 +71,7 @@ void	print_dir_recur(t_file *dir, e_options opts){
 		free(file_to_del);
 	}
 	while(dirs){
-		ft_printf("\n");
+		printf("\n");
 		print_dir_recur(dirs, opts);
 		file_to_del = dirs;
 		dirs = dirs->next;
@@ -85,14 +85,14 @@ void	print_dir(t_file *dir, e_options opts, bool root){
 	t_format		format;
 
 	if (root == false)
-		ft_printf("%s:\n", dir->path);
+		printf("%s:\n", dir->path);
 	read_stream(&files, dir, opts);
 	if(opts & l){
 		get_width(files, &format);
 		print_total(files);
 	}
 	while(files){
-		print_file(files, format, opts);
+		print_file(files, &format, opts);
 		file_to_del = files;
 		files = files->next;
 		free(file_to_del);

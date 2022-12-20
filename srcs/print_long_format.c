@@ -30,21 +30,22 @@ static char print_perm(mode_t perms){
 	chmod[8] = (S_IWOTH & perms) ? 'w' : '-';
 	chmod[9] = (S_IXOTH & perms) ? 'x' : '-';
     chmod[10] = '\0';
-    ft_printf("%-11s", chmod);
+    printf("%-10s ", chmod);
     return (chmod[0]);
 }
 
-static void print_user_n_group(uid_t user_id, gid_t group_id, t_format format){
+static void print_user_n_group(uid_t user_id, gid_t group_id, t_format *format){
     struct passwd *user_infos;
     struct group  *group_infos;
 
     user_infos = getpwuid(user_id);
+    (void)format;
     group_infos = getgrgid(group_id);
     if (user_infos && group_infos)
-        ft_printf("%*s %*s ", format.user_name_width, user_infos->pw_name, format.user_group_width, group_infos->gr_name);
+        printf("%-*s %-*s ", format->user_name_width, user_infos->pw_name, format->user_group_width, group_infos->gr_name);
     else{
         char *str_user_id = ft_itoa(user_id), *str_group_id = ft_itoa(group_id);
-        ft_printf("%s %s ", str_user_id, str_group_id);
+        printf("%s %s ", str_user_id, str_group_id);
         free(str_user_id);
         free(str_group_id);
     }
@@ -102,24 +103,24 @@ static bool past_six_month(int file_day, int file_month, int file_year){
 static void print_time(char *time_stamp){
     char **time_stamp_split = ft_split(time_stamp, ' ');
 
-    ft_printf("%s ", time_stamp_split[1]);
-    ft_printf("%2s ", time_stamp_split[2]);
+    printf("%s ", time_stamp_split[1]);
+    printf("%2s ", time_stamp_split[2]);
     if (past_six_month(ft_atoi(time_stamp_split[2]), get_month_number(time_stamp_split[1]), ft_atoi(time_stamp_split[4])) == false)
-        ft_printf("%.5s ", time_stamp_split[3]);
+        printf("%.5s ", time_stamp_split[3]);
     else{
         time_stamp_split[4][4] = '\0'; 
-        ft_printf("%s ", time_stamp_split[4]);
+        printf(" %s ", time_stamp_split[4]);
     }
     ft_free_split(time_stamp_split);
 }
 
-void    print_long_format(t_file *file, t_format format){
+void    print_long_format(t_file *file, t_format *format){
     char        type;
 
     type = print_perm(file->file_infos.st_mode);
-    ft_printf("%*d ", format.hard_links_width, file->file_infos.st_nlink);
+    printf("%*ld ", format->hard_links_width, file->file_infos.st_nlink);
     print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid, format);
-    ft_printf("%*d ", format.size_width, file->file_infos.st_size);
+    printf("%*ld ", format->size_width, file->file_infos.st_size);
     print_time(ctime(&file->file_infos.st_mtime));
     if (type == 'l'){
         char sym_link[PATH_MAX];
@@ -127,8 +128,8 @@ void    print_long_format(t_file *file, t_format format){
         
         link_string_length = readlink(file->path, sym_link, sizeof sym_link);
         sym_link[link_string_length] = '\0';
-        ft_printf("%s -> %s\n", file->name, sym_link);
+        printf("%s -> %s\n", file->name, sym_link);
     }
     else
-        ft_printf("%s\n", file->name);
+        printf("%s\n", file->name);
 }

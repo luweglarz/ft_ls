@@ -30,12 +30,12 @@ int main(int ac, char **av){
                     t_format format;
 
                     get_width(tmp_files, &format);
-                    print_file(tmp_files, format, opts);
+                    print_file(tmp_files, &format, opts);
                 }
                 tmp_files = tmp_files->next;
             }
             if (has_dir(files))
-                ft_printf("\n");
+                printf("\n");
         }
         tmp_files = files;
         while(tmp_files){
@@ -45,7 +45,7 @@ int main(int ac, char **av){
                 else
 		            print_dir(tmp_files, opts, false);
                 if (tmp_files->next != NULL)
-                    ft_printf("\n");
+                    printf("\n");
             }
             tmp_files = tmp_files->next;
         }
