@@ -63,6 +63,9 @@ int     get_files_opts(int ac, char **av, t_file **files, e_options *opts);
 size_t	count_digit(size_t number);
 void    get_width(t_file *files, t_format *format);
 
+bool is_past_six_month(int file_month, int file_year);
+int  get_month_number(char *month);
+
 void    fatal_error(t_file *files);
 
 #endif

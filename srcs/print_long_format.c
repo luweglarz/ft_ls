@@ -51,61 +51,12 @@ static void print_user_n_group(uid_t user_id, gid_t group_id, t_format *format){
     }
 }
 
-static int  get_month_number(char *month){
-    if (ft_strncmp(month, "Jan", 3) == 0)
-        return (1);
-    if (ft_strncmp(month, "Feb", 3) == 0)
-        return (2);
-    if (ft_strncmp(month, "Mar", 3) == 0)
-        return (3);
-    if (ft_strncmp(month, "Apr", 3) == 0)
-        return (4);
-    if (ft_strncmp(month, "May", 3) == 0)
-        return (5);
-    if (ft_strncmp(month, "Jun", 3) == 0)
-        return (6);
-    if (ft_strncmp(month, "Jul", 3) == 0)
-        return (7);
-    if (ft_strncmp(month, "Aug", 3) == 0)
-        return (8);
-    if (ft_strncmp(month, "Sep", 3) == 0)
-        return (9);
-    if (ft_strncmp(month, "Oct", 3) == 0)
-        return (10);
-    if (ft_strncmp(month, "Nov", 3) == 0)
-        return (11);
-    return (12);
-}
-
-static bool past_six_month(int file_day, int file_month, int file_year){
-    int actual_day, actual_month, actual_year;
-    int diff_month = 0, diff_year = 0;
-    time_t  actual_time;
-    char    **actual_split;
-
-    actual_time = time(&actual_time);
-    actual_split = ft_split(ctime(&actual_time), ' ');
-    actual_day = ft_atoi(actual_split[2]);
-    actual_month = get_month_number(actual_split[1]);
-    actual_year = ft_atoi(actual_split[4]);
-
-    ft_free_split(actual_split);
-    if ((actual_day - file_day) < 0)
-        diff_month += 1;
-    diff_month += actual_month - file_month;
-    diff_year = actual_year - file_year;
-    if ((diff_year >= 1) || (diff_year == 0 && diff_month >= 6))
-        return (true);
-    return (false);
-
-}
-
 static void print_time(char *time_stamp){
     char **time_stamp_split = ft_split(time_stamp, ' ');
 
     printf("%s ", time_stamp_split[1]);
     printf("%2s ", time_stamp_split[2]);
-    if (past_six_month(ft_atoi(time_stamp_split[2]), get_month_number(time_stamp_split[1]), ft_atoi(time_stamp_split[4])) == false)
+    if (is_past_six_month(get_month_number(time_stamp_split[1]), ft_atoi(time_stamp_split[4])) == false)
         printf("%.5s ", time_stamp_split[3]);
     else{
         time_stamp_split[4][4] = '\0'; 
