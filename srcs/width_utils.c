@@ -29,10 +29,10 @@ void get_width(t_file *files, t_format *format){
 		if (max_hard_links > format->hard_links_width)
 			format->hard_links_width = max_hard_links;
 		user_infos = getpwuid(tmp_files->file_infos.st_uid);
-		if ((int)ft_strlen(user_infos->pw_name) > format->user_name_width)
+		if (user_infos && (int)ft_strlen(user_infos->pw_name) > format->user_name_width)
 			format->user_name_width = (int)ft_strlen(user_infos->pw_name);
 		group_infos = getgrgid(tmp_files->file_infos.st_gid);
-		if ((int)ft_strlen(group_infos->gr_name) > format->user_group_width)
+		if (group_infos && (int)ft_strlen(group_infos->gr_name) > format->user_group_width)
 			format->user_group_width = (int)ft_strlen(group_infos->gr_name);
 		tmp_files = tmp_files->next;
 	}

@@ -56,8 +56,10 @@ t_file  *init_file(char *file_name, char *path){
     ft_strncpy(new_file->path, path, ft_strlen(path));
     new_file->next = NULL;
 
-    if(lstat(new_file->path, &new_file->file_infos) == -1)
+    if(lstat(new_file->path, &new_file->file_infos) == -1){
+        free(new_file);
         return (NULL);
+    }
     if (S_ISDIR(new_file->file_infos.st_mode))
         new_file->isdir = true;
     return (new_file);

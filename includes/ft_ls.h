@@ -47,7 +47,7 @@ bool    has_file(t_file *files);
 bool    has_dir(t_file *files);
 
 bool    alphabetic_compare(char *s1, char *s2);
-bool    time_compare(struct stat file1, char *file2);
+bool    time_compare(struct stat file1, struct stat file2);
 
 void    print_long_format(t_file *file, t_format *format);
 
@@ -63,9 +63,8 @@ int     get_files_opts(int ac, char **av, t_file **files, e_options *opts);
 size_t	count_digit(size_t number);
 void    get_width(t_file *files, t_format *format);
 
-bool is_past_six_month(int file_month, int file_year);
-int  get_month_number(char *month);
+bool    is_past_six_month(int file_month, int file_year);
+int     get_month_number(char *month);
 
-void    fatal_error(t_file *files);
 
 #endif

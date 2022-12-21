@@ -25,7 +25,7 @@ static void	read_stream(t_file **files, t_file *dir, e_options opts){
 
 	if(dir_stream == NULL){
 		write(2, "ft_ls: ", 8);
-        write(2, dir->name, ft_strlen(dir->name));
+        write(2, dir->path, ft_strlen(dir->path));
         write(2, ": Permission denied\n", 21);
 		return ;
 	}
