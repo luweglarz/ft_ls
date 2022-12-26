@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/sysmacros.h>
 #include <dirent.h>
 #include <pwd.h>
 #include <grp.h>
@@ -45,6 +46,7 @@ void    free_files(t_file *files);
 int     count_files(t_file *files);
 bool    has_file(t_file *files);
 bool    has_dir(t_file *files);
+bool    is_device(t_file *file);
 
 bool    alphabetic_compare(char *s1, char *s2);
 bool    time_compare(struct stat file1, struct stat file2);

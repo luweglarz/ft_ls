@@ -49,7 +49,6 @@ static void print_user_n_group(uid_t user_id, gid_t group_id, t_format *format){
     struct group  *group_infos;
 
     user_infos = getpwuid(user_id);
-    (void)format;
     group_infos = getgrgid(group_id);
     if (user_infos && group_infos)
         printf("%-*s %-*s ", format->user_name_width, user_infos->pw_name, format->user_group_width, group_infos->gr_name);
@@ -75,13 +74,27 @@ static void print_time(char *time_stamp){
     ft_free_split(time_stamp_split);
 }
 
+static void print_device_type(char *major, char *minor, t_format *format){
+    char *major_ext = ft_strjoin(major, ", ");
+    char *major_minor = ft_strjoin(major_ext, minor);
+
+    printf("%*s ",format->size_width,  major_minor);
+    free(major_ext);
+    free(major_minor);
+    free(major);
+    free(minor);
+}
+
 void    print_long_format(t_file *file, t_format *format){
     char        type;
 
     type = print_perm(file->file_infos.st_mode);
     printf("%*ld ", format->hard_links_width, file->file_infos.st_nlink);
     print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid, format);
-    printf("%*ld ", format->size_width, file->file_infos.st_size);
+    if (is_device(file) == true)
+        print_device_type(ft_itoa(major(file->file_infos.st_rdev)), ft_itoa(minor(file->file_infos.st_rdev)), format);
+    else
+        printf("%*ld ", format->size_width, file->file_infos.st_size);
     print_time(ctime(&file->file_infos.st_mtime));
     if (type == 'l'){
         char sym_link[PATH_MAX];

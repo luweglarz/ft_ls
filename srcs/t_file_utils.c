@@ -20,6 +20,12 @@ bool    has_dir(t_file *files){
         tmp_files = tmp_files->next;
     }
     return (false);
+} 
+
+bool is_device(t_file *file){
+	if (major(file->file_infos.st_rdev) > 0)
+		return (true);
+	return (false);
 }
 
 void    free_files(t_file *files){
