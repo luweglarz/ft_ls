@@ -36,7 +36,7 @@ bool is_past_six_month(int file_month, int file_year){
     actual_month = get_month_number(actual_split[1]);
     actual_year = ft_atoi(actual_split[4]);
     ft_free_split(actual_split);
-    if ((actual_month - file_month + (actual_year - file_year) * 12) > 6)
+    if ((actual_month - file_month + (actual_year - file_year) * 12) >= 6)
         return (true);
     return (false);
 }

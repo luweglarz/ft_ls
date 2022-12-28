@@ -23,7 +23,7 @@ $(NAME): $(FT_LS_OBJS)
 	@ar rc $(FT_LS_LIBRARY) $(FT_LS_OBJS)
 	@ranlib $(FT_LS_LIBRARY)
 	make -C $(LIBFT) all
-	$(CC) $(FLAGS) main.c -g -fsanitize=address $(FT_LS_LIBRARY) $(LIBFT)libft.a -o $(NAME)
+	$(CC) $(FLAGS) main.c $(FT_LS_LIBRARY) $(LIBFT)libft.a -o $(NAME)
 
 docker:
 	@docker build -t ft_ls_image .
