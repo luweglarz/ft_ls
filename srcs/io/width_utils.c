@@ -1,4 +1,4 @@
-#include "../includes/ft_ls.h"
+#include "../../includes/ft_ls.h"
 
 size_t	count_digit(size_t number){
 	size_t cnt = 0;

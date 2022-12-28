@@ -1,4 +1,4 @@
-#include "../includes/ft_ls.h"
+#include "../../includes/ft_ls.h"
 
 bool    has_file(t_file *files){
     t_file *tmp_files = files;

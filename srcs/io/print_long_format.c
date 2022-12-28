@@ -1,4 +1,4 @@
-#include "../includes/ft_ls.h"
+#include "../../includes/ft_ls.h"
 
 static char get_type(mode_t perms){
     if (S_ISBLK(perms))

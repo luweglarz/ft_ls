@@ -1,4 +1,4 @@
-#include "../includes/ft_ls.h"
+#include "../../includes/ft_ls.h"
 
 bool alphabetic_compare(char *s1, char *s2){
     int i = 0;
@@ -18,5 +18,5 @@ bool alphabetic_compare(char *s1, char *s2){
 }
 
 bool time_compare(struct stat file1, struct stat file2){
-    return (file1.st_ctime <= file2.st_ctime);
+    return (file1.st_mtime < file2.st_mtime);
 }

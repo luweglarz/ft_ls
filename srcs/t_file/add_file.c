@@ -1,4 +1,4 @@
-#include "../includes/ft_ls.h"
+#include "../../includes/ft_ls.h"
 
 void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev){
     t_file  *tmp_files = *files;
@@ -20,7 +20,7 @@ void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev){
     else{
         while(tmp_files->next && ((time_compare(tmp_files->next->file_infos, new_file->file_infos) == false && rev == 0) ||
         (time_compare(tmp_files->next->file_infos, new_file->file_infos) == true && rev > 0)))
-            tmp_files = tmp_files->next;
+        tmp_files = tmp_files->next;
         new_file->next = tmp_files->next;
         tmp_files->next = new_file;
     }

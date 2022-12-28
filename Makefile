@@ -2,15 +2,15 @@ CC = gcc
 
 NAME = ft_ls
 
-FT_LS_LIBRARY = ft_ls.a
+LIB = ft_ls.a
 
 LIBFT = libft/
 
 FLAGS = -Wall -Wextra -Werror
 
-FT_LS_SRCS =  $(shell find ./srcs -type f -name '*.c')
+SRCS =  $(shell find ./srcs -type f -name '*.c')
 
-FT_LS_OBJS = $(FT_LS_SRCS:.c=.o)
+OBJS = $(SRCS:.c=.o)
 
 PWD = $(shell pwd)
 
@@ -19,22 +19,22 @@ PWD = $(shell pwd)
 
 all: $(NAME)
 
-$(NAME): $(FT_LS_OBJS)
-	@ar rc $(FT_LS_LIBRARY) $(FT_LS_OBJS)
-	@ranlib $(FT_LS_LIBRARY)
+$(NAME): $(OBJS)
+	@ar rc $(LIB) $(OBJS)
+	@ranlib $(LIB)
 	make -C $(LIBFT) all
-	$(CC) $(FLAGS) main.c $(FT_LS_LIBRARY) $(LIBFT)libft.a -o $(NAME)
+	$(CC) $(FLAGS) main.c $(LIB) $(LIBFT)libft.a -o $(NAME)
 
 docker:
-	@docker build -t ft_ls_image .
-	@docker run  --name ft_ls_container -it --rm -v $(PWD):/ft_ls ft_ls_image /bin/bash
+	@docker build -t image .
+	@docker run  --name container -it --rm -v $(PWD):/ft_ls image /bin/bash
 
 clean:
-	rm -rf $(FT_LS_OBJS) $(FT_LS_LIBRARY)
+	rm -rf $(OBJS) $(LIB)
 	
 fclean:	clean
 	rm -rf $(NAME) 
 	make -C $(LIBFT) fclean
-	-docker image rm ft_ls_image
+	-docker image rm image
 
 re: fclean all

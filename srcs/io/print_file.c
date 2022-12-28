@@ -1,4 +1,4 @@
-#include "../includes/ft_ls.h"
+#include "../../includes/ft_ls.h"
 
 void    print_file(t_file *file, t_format *format, e_options opts){
     if (opts & l)
