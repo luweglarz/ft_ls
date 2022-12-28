@@ -21,6 +21,6 @@ void    fileadd_by_alpha(t_file **files, char *file_name, char *path, int rev);
 void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev);
 
 bool    alphabetic_compare(char *s1, char *s2);
-bool    time_compare(struct stat file1, struct stat file2);
+bool    time_compare(t_file *file1, t_file *file2);
 
 #endif

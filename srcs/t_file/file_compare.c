@@ -17,6 +17,11 @@ bool alphabetic_compare(char *s1, char *s2){
     return (s1[i] > s2[j]);
 }
 
-bool time_compare(struct stat file1, struct stat file2){
-    return (file1.st_mtime < file2.st_mtime);
+bool time_compare(t_file *file1, t_file *file2){
+    if (file1->file_infos.st_mtim.tv_sec == file2->file_infos.st_mtim.tv_sec){
+        if (file1->file_infos.st_mtim.tv_nsec == 0 || file2->file_infos.st_mtim.tv_nsec == 0)
+            return (alphabetic_compare(file1->name, file2->name));
+        return (file1->file_infos.st_mtim.tv_nsec < file2->file_infos.st_mtim.tv_nsec);
+    }
+    return (file1->file_infos.st_mtim.tv_sec < file2->file_infos.st_mtim.tv_sec);
 }

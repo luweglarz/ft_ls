@@ -12,14 +12,14 @@ void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev){
     }
     if (*files == NULL)
         *files = new_file;
-    else if((time_compare((*files)->file_infos, new_file->file_infos) == true && rev == 0) ||
-        (time_compare((*files)->file_infos, new_file->file_infos) == false && rev > 0)){
+    else if((time_compare(*files, new_file) == true && rev == 0) ||
+        (time_compare(*files, new_file) == false && rev > 0)){
         new_file->next = *files;
         *files = new_file;
     }
     else{
-        while(tmp_files->next && ((time_compare(tmp_files->next->file_infos, new_file->file_infos) == false && rev == 0) ||
-        (time_compare(tmp_files->next->file_infos, new_file->file_infos) == true && rev > 0)))
+        while(tmp_files->next && ((time_compare(tmp_files->next, new_file) == false && rev == 0) ||
+        (time_compare(tmp_files->next, new_file) == true && rev > 0)))
         tmp_files = tmp_files->next;
         new_file->next = tmp_files->next;
         tmp_files->next = new_file;
