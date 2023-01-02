@@ -64,7 +64,9 @@ void	print_dir_recur(t_file *dir, e_options opts){
 	}
 	while(files){
 		print_file(files, &format, opts);
-		if (files->isdir == true && is_root(files->name) == false)
+		if (files->isdir == true && is_root(files->name) == false && (opts & t) > 0)
+			fileadd_by_time(&dirs, files->name, files->path, opts & r);
+		else if (files->isdir == true && is_root(files->name) == false )
 			fileadd_by_alpha(&dirs, files->name, files->path, opts & r);
 		file_to_del = files;
 		files = files->next;
