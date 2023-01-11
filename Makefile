@@ -15,7 +15,7 @@ OBJS = $(SRCS:.c=.o)
 PWD = $(shell pwd)
 
 .c.o:
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -I./includes -c $< -o $@
 
 all: $(NAME)
 

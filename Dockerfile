@@ -5,10 +5,8 @@ RUN apt-get update \
 && apt-get install -y locales \
 && apt -y install valgrind 
 
-#Build locales to have correct alpha sorting
-RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
-    locale-gen
-ENV LC_ALL en_US.UTF-8 
+#Set locale to C
+ENV LC_ALL C
 
 RUN mkdir ft_ls
 

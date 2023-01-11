@@ -1,31 +1,9 @@
-#include "../../includes/ft_ls.h"
-
-
-int get_alpha(char c){
-    if (c >= 'A' && c <= 'Z')
-        return (c + 32);
-    return (c);
-}
+#include "ft_ls.h"
 
 bool alphabetic_compare(char *s1, char *s2){
-    int i = 0;
-    int j = 0;
-    
-    if ((s1[0] == '.' && s1[1] == '\0') && (s2[0] == '.' && s2[1] == '.' && s2[2] == '\0'))
+    if (ft_strcmp(s1, s2) < 0)
         return (false);
-    else if ((s1[0] == '.' && s1[1] == '.' && s1[2] == '\0') && (s2[0] == '.' && s2[1] == '\0'))
-        return (true);
-    while(get_alpha(s1[i]) && get_alpha(s2[j])){
-        while(!ft_isalnum(s1[i]))
-            i++;
-        while(!ft_isalnum(s2[j]))
-            j++;
-        if (get_alpha(s1[i]) != get_alpha(s2[j]))
-            break ;
-        i++;
-        j++;
-    }
-    return (get_alpha(s1[i]) > get_alpha(s2[j]));
+    return (true);
 }
 
 bool time_compare(t_file *file1, t_file *file2){

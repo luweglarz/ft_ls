@@ -1,4 +1,4 @@
-#include "../../includes/ft_ls.h"
+#include "ft_ls.h"
 
 static void get_opts(char *av, e_options *opts){
     int i = 0;

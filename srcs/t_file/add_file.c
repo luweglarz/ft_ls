@@ -1,4 +1,4 @@
-#include "../../includes/ft_ls.h"
+#include "ft_ls.h"
 
 void    fileadd_by_time(t_file **files, char *file_name, char *path, int rev){
     t_file  *tmp_files = *files;

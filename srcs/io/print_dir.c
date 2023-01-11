@@ -1,4 +1,4 @@
-#include "../../includes/ft_ls.h"
+#include "ft_ls.h"
 
 static void print_total(t_file *dir){
 	size_t		size = 0;
