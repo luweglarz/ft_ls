@@ -22,19 +22,28 @@ static char print_perm(mode_t perms){
     chmod[0] = get_type(perms);
     chmod[1] = (S_IRUSR & perms) ? 'r' : '-';
 	chmod[2] = (S_IWUSR & perms) ? 'w' : '-';
-    if (S_ISUID & perms)
-        chmod[3] = 's';
+    if (S_ISUID & perms){
+        if (S_IXUSR)
+            chmod[3] = 'S';
+        else
+            chmod[3] = 's';
+    }
     else
 	    chmod[3] = (S_IXUSR & perms) ? 'x' : '-';
+
 	chmod[4] = (S_IRGRP & perms) ? 'r' : '-';
 	chmod[5] = (S_IWGRP & perms) ? 'w' : '-';
-    if (S_ISGID & perms)
-        chmod[6] = 's';
+    if (S_ISGID & perms){
+        if (S_IXUSR)
+            chmod[6] = 'S';
+        else
+            chmod[6] = 's';
+    }
     else
 	    chmod[6] = (S_IXGRP & perms) ? 'x' : '-';
+
 	chmod[7] = (S_IROTH & perms) ? 'r' : '-';
 	chmod[8] = (S_IWOTH & perms) ? 'w' : '-';
-	chmod[9] = (S_IXOTH & perms) ? 'x' : '-';
     if (S_ISVTX & perms)
         chmod[9] = 't';
     else
