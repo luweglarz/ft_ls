@@ -34,20 +34,12 @@ static char print_permissions(mode_t perms , t_file *file){
 	chmodbuff[2] = (S_IWUSR & perms) ? 'w' : '-';
     chmodbuff[3] = (S_IXUSR & perms) ? 'x' : '-';
     if (S_ISUID & perms){
-        if (S_IXUSR)
-            chmodbuff[3] = 'S';
-        else
-            chmodbuff[3] = 's';
-    }
+    	chmodbuff[3] = (S_IXUSR & perms) ? 's' : 'S';}
 	chmodbuff[4] = (S_IRGRP & perms) ? 'r' : '-';
 	chmodbuff[5] = (S_IWGRP & perms) ? 'w' : '-';
     chmodbuff[6] = (S_IXGRP & perms) ? 'x' : '-';
     if (S_ISGID & perms){
-        if (S_IXUSR)
-            chmodbuff[6] = 'S';
-        else
-            chmodbuff[6] = 's';
-    }
+    	chmodbuff[6] = (S_IXUSR & perms) ? 's' : 'S';}
 	chmodbuff[7] = (S_IROTH & perms) ? 'r' : '-';
 	chmodbuff[8] = (S_IWOTH & perms) ? 'w' : '-';
     chmodbuff[9] = (S_IXGRP & perms) ? 'x' : '-';
