@@ -16,41 +16,36 @@ static char get_type(mode_t perms){
     return ('-');
 }
 
-static char print_perm(mode_t perms){
-    char chmod[11];
+static char print_permissions(mode_t perms){
+    char chmodbuff[12];
 
-    chmod[0] = get_type(perms);
-    chmod[1] = (S_IRUSR & perms) ? 'r' : '-';
-	chmod[2] = (S_IWUSR & perms) ? 'w' : '-';
+    chmodbuff[0] = get_type(perms);
+    chmodbuff[1] = (S_IRUSR & perms) ? 'r' : '-';
+	chmodbuff[2] = (S_IWUSR & perms) ? 'w' : '-';
+    chmodbuff[3] = (S_IXUSR & perms) ? 'x' : '-';
     if (S_ISUID & perms){
         if (S_IXUSR)
-            chmod[3] = 'S';
+            chmodbuff[3] = 'S';
         else
-            chmod[3] = 's';
+            chmodbuff[3] = 's';
     }
-    else
-	    chmod[3] = (S_IXUSR & perms) ? 'x' : '-';
-
-	chmod[4] = (S_IRGRP & perms) ? 'r' : '-';
-	chmod[5] = (S_IWGRP & perms) ? 'w' : '-';
+	chmodbuff[4] = (S_IRGRP & perms) ? 'r' : '-';
+	chmodbuff[5] = (S_IWGRP & perms) ? 'w' : '-';
+    chmodbuff[6] = (S_IXGRP & perms) ? 'x' : '-';
     if (S_ISGID & perms){
         if (S_IXUSR)
-            chmod[6] = 'S';
+            chmodbuff[6] = 'S';
         else
-            chmod[6] = 's';
+            chmodbuff[6] = 's';
     }
-    else
-	    chmod[6] = (S_IXGRP & perms) ? 'x' : '-';
-
-	chmod[7] = (S_IROTH & perms) ? 'r' : '-';
-	chmod[8] = (S_IWOTH & perms) ? 'w' : '-';
+	chmodbuff[7] = (S_IROTH & perms) ? 'r' : '-';
+	chmodbuff[8] = (S_IWOTH & perms) ? 'w' : '-';
+    chmodbuff[9] = (S_IXGRP & perms) ? 'x' : '-';
     if (S_ISVTX & perms)
-        chmod[9] = 't';
-    else
-	    chmod[9] = (S_IXGRP & perms) ? 'x' : '-';
-    chmod[10] = '\0';
-    printf("%-10s ", chmod);
-    return (chmod[0]);
+        chmodbuff[9] = 't';
+    chmodbuff[10] = '\0';
+    printf("%-10s ", chmodbuff);
+    return (chmodbuff[0]);
 }
 
 static void print_user_n_group(uid_t user_id, gid_t group_id, t_format *format){
@@ -97,7 +92,7 @@ static void print_device_type(char *major, char *minor, t_format *format){
 void    print_long_format(t_file *file, t_format *format){
     char        type;
 
-    type = print_perm(file->file_infos.st_mode);
+    type = print_permissions(file->file_infos.st_mode);
     printf("%*ld ", format->hard_links_width, file->file_infos.st_nlink);
     print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid, format);
     if (is_device(file) == true)
