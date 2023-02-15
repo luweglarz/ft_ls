@@ -13,6 +13,7 @@
 #include <limits.h>
 #include <stdbool.h>
 #include <errno.h>
+#include <sys/xattr.h>
 
 #include "t_file.h"
 #include "args.h"
