@@ -20,15 +20,17 @@ static char get_acl(t_file *file){
     ssize_t list_len = listxattr(file->path, NULL, 0);
     
     if (list_len == -1)
-        return (' ');
+        return ('t');
     else if (!list_len)
-        return (' ');
+        return ('t');
+    printf("apred\n");
     return ('+');
 }
 
-static char print_permissions(mode_t perms , t_file *file){
-    char chmodbuff[11];
+static char print_permissions(mode_t perms , t_file *file, t_format *format){
+    char chmodbuff[12];
 
+    ft_bzero(chmodbuff, 12);
     chmodbuff[0] = get_type(perms);
     chmodbuff[1] = (S_IRUSR & perms) ? 'r' : '-';
 	chmodbuff[2] = (S_IWUSR & perms) ? 'w' : '-';
@@ -46,7 +48,7 @@ static char print_permissions(mode_t perms , t_file *file){
     if (S_ISVTX & perms)
         chmodbuff[9] = 't';
     chmodbuff[10] = get_acl(file);
-    printf("%-10s ", chmodbuff);
+    printf("%-*s", format->perm_width, chmodbuff);
     return (chmodbuff[0]);
 }
 
@@ -94,7 +96,7 @@ static void print_device_type(char *major, char *minor, t_format *format){
 void    print_long_format(t_file *file, t_format *format){
     char        type;
 
-    type = print_permissions(file->file_infos.st_mode, file);
+    type = print_permissions(file->file_infos.st_mode, file, format);
     printf("%*ld ", format->hard_links_width, file->file_infos.st_nlink);
     print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid, format);
     if (is_device(file) == true)

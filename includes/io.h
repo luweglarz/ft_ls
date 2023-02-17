@@ -2,10 +2,11 @@
 # define IO_H
 
 typedef struct  s_format{
-    int  size_width;
-    int  hard_links_width;
-    int  user_name_width;
-    int  user_group_width;
+    int     size_width;
+    int     hard_links_width;
+    int     user_name_width;
+    int     user_group_width;
+    int     perm_width;
 }               t_format;
 
 void    print_long_format(t_file *file, t_format *format);
