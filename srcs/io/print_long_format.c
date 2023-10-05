@@ -23,7 +23,6 @@ static char get_acl(t_file *file){
         return ('t');
     else if (!list_len)
         return ('t');
-    printf("apred\n");
     return ('+');
 }
 
