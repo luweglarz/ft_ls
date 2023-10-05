@@ -16,20 +16,10 @@ static char get_type(mode_t perms){
     return ('-');
 }
 
-static char get_acl(t_file *file){
-    ssize_t list_len = listxattr(file->path, NULL, 0);
-    
-    if (list_len == -1)
-        return ('t');
-    else if (!list_len)
-        return ('t');
-    return ('+');
-}
+static char print_permissions(mode_t perms, t_format *format){
+    char chmodbuff[11];
 
-static char print_permissions(mode_t perms , t_file *file, t_format *format){
-    char chmodbuff[12];
-
-    ft_bzero(chmodbuff, 12);
+    ft_bzero(chmodbuff, 11);
     chmodbuff[0] = get_type(perms);
     chmodbuff[1] = (S_IRUSR & perms) ? 'r' : '-';
 	chmodbuff[2] = (S_IWUSR & perms) ? 'w' : '-';
@@ -44,9 +34,10 @@ static char print_permissions(mode_t perms , t_file *file, t_format *format){
 	chmodbuff[7] = (S_IROTH & perms) ? 'r' : '-';
 	chmodbuff[8] = (S_IWOTH & perms) ? 'w' : '-';
     chmodbuff[9] = (S_IXGRP & perms) ? 'x' : '-';
-    if (S_ISVTX & perms)
+    if (S_ISVTX & perms && S_IFDIR & perms)
         chmodbuff[9] = 't';
-    chmodbuff[10] = get_acl(file);
+    else if (S_ISVTX & perms && !(S_IFDIR & perms))
+        chmodbuff[9] = 'T';
     printf("%-*s", format->perm_width, chmodbuff);
     return (chmodbuff[0]);
 }
@@ -95,7 +86,7 @@ static void print_device_type(char *major, char *minor, t_format *format){
 void    print_long_format(t_file *file, t_format *format){
     char        type;
 
-    type = print_permissions(file->file_infos.st_mode, file, format);
+    type = print_permissions(file->file_infos.st_mode, format);
     printf("%*ld ", format->hard_links_width, file->file_infos.st_nlink);
     print_user_n_group(file->file_infos.st_uid, file->file_infos.st_gid, format);
     if (is_device(file) == true)

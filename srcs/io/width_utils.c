@@ -18,12 +18,6 @@ static void	get_file_size_width(t_file *file, t_format *format){
 		format->size_width = max_size;
 }
 
-static bool is_acl(t_file *file){
-	if (listxattr(file->path, NULL, 0))
-		return (true);
-	return (false);
-}
-
 static void	get_device_size_width(t_file *file, t_format *format){
 	int	major_size	= 0;
 	int minor_size	= 0;
@@ -61,8 +55,6 @@ void 	get_width(t_file *files, t_format *format){
 		group_infos = getgrgid(tmp_files->file_infos.st_gid);
 		if (group_infos && (int)ft_strlen(group_infos->gr_name) > format->user_group_width)
 			format->user_group_width = (int)ft_strlen(group_infos->gr_name);
-		if (is_acl(tmp_files))
-			format->perm_width = 12;
 		tmp_files = tmp_files->next;
 	}
 }
